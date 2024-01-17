@@ -40,8 +40,36 @@ The model_code/friction_ramp subfolder holds files pertinent to the baseline fri
 	rhow	|  a	| a
 	g	|  a	| a
 	hscale	|  a	| a
-ascale	|  a	| a
-	b0	|  a	| a
+	ascale	|  a	| a
+	bmbscale|  a	| a
+	uscale	|  a	| a
+	xscale	|  a	| a
+	tscale	|  a	| a
+	eps	|  a	| a
+	lambda	|  a	| a
+	transient	|  a	| a
+	tfinal	|  a	| a
+	Nt	|  a	| a
+	dt	|  a	| a
+	Nx	|  a	| a
+	N1	|  a	| a
+	N2	|  a	| a
+	Ntot|  a	| a
+	sigGZ	|  a	| a
+	sigma	|  a	| a
+	sigma_elem |  a	| a
+	dsigma	|  a	| a
+	h_old	|  a	| a
+	xg_old	|  a	| a
+	sfc_elev	|  a	| a
+	sfc_d1	|  a	| a
+	sfc_d2	|  a	| a
+	h	|  a	| a
+	u	|  a	| a
+	xg	|  a	| a
+	hf	|  a	| a
+	b	|  a	| a
+	x_real	|  a	| a
 
 - **friction_ramp_simulation.m**: Uses **ssa_wshelf_fine_fxn.m** to run the friction ramp simulations shared in the paper,
 - **friction_ramp_figure.m**:	
@@ -56,3 +84,19 @@ The following structures are the outputs obtained by running the friction_ramp_s
 ### Topography Ridge Modeling
 
 ## Algorithm Code
+
+Field  |  Data Type  |  Description
+------------- | -------------  |  -------------
+fx	|  a	|	a
+fy	|  a	|	a
+near_ibx	|  a	|	a
+near_iby	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
+fx	|  a	|	a
