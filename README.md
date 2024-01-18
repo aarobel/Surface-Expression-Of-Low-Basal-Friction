@@ -123,6 +123,7 @@ The model_code/friction_ramp subfolder holds files pertinent to the bed topograp
   	- Outputs:
 - **topography_ridge_simulation.m**: Uses **ssa_wshelf_ridge_fxn.m** to run the topography ridge simulations shared in the paper, where no friction ramp or basal melt is applies, with the following outputs following the structure of **params**:
   	- Outputs:
+  	  
 	Output File Name  |  Data Type  |  Description
 	------------- | -------------  |  -------------
   	ctl.mat	|  Data structure (See **params**)| Simulation with standard 
@@ -132,6 +133,7 @@ The model_code/friction_ramp subfolder holds files pertinent to the bed topograp
   	stp1.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 1 km upstream of the grounding line.
  	stp5.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 5 km upstream of the grounding line.
 	stp10.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 10 km upstream of the grounding line.
+
 - **topography_ridge_figure.m**:
 
 
