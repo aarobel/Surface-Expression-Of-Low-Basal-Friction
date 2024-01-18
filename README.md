@@ -109,6 +109,31 @@ The model_code/friction_ramp subfolder holds files pertinent to the basal melt r
 ### Topography Ridge Modeling
 The model_code/friction_ramp subfolder holds files pertinent to the bed topography ridges modeling discussed in the "Hypothesis from Modeling" section of the paper.
 #### Scripts, Inputs, and Outputs
+- **ssa_wshelf_ridge_fxn.m**: Runs the flowline model described in the paper with a fine resolution grid upstream of the grounding line. Allows for the implementation of both a basal friction ramp and basal melt ramp at the same "intrusion distance" L. Allows for the implementation of "ridges" in the bed topography, namely a sudden onset of a different slope, at a defined distance upstream of the grounding line.
+  	- Inputs:
+ 
+  	Inputs  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+	L  |  Double  | The length (m) of the friction ramp and/or basal melt ramp.
+	frxn_ramp  |  Boolean |  Whether a friction ramp is simulated.
+	bmbi  |  Double  | The highest ("initial") rate of basal melt (km/yr) prescribed on the basal melt ramp. When set to 0, no basal melt ramp is applied.
+	shelf_only  |  Boolean  | Whether basal melt is applied to the ice shelf only or upstream of the grounding line.
+	ridge	|  Data structure with fields "rx" and "rx0"  | Defines the slope of the ridge (field "rx") and the distance upstream of the grounding line where the ridge is implemented (field "rx0"). The baseline slope "rx" is 1e-3.
+
+  	- Outputs:
+- **topography_ridge_simulation.m**: Uses **ssa_wshelf_ridge_fxn.m** to run the topography ridge simulations shared in the paper, where no friction ramp or basal melt is applies, with the following outputs following the structure of **params**:
+  	- Outputs:
+	Output File Name  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+  	ctl.mat	|  Data structure (See **params**)| Simulation with standard 
+ 	shlw1.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 1/4x of the control slope implemented 1 km upstream of the grounding line.
+	shlw5.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 1/4x of the control slope implemented 5 km upstream of the grounding line.
+  	shlw10.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 1/4x of the control slope implemented 10 km upstream of the grounding line.
+  	stp1.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 1 km upstream of the grounding line.
+ 	stp5.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 5 km upstream of the grounding line.
+	stp10.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 10 km upstream of the grounding line.
+- **topography_ridge_figure.m**:
+
 
 ## Algorithm Code
 The along-flow distance algorithm aims to find a nearest neighbor slope break point and nearest along-flow slope break point from a linear interpolation between the nearby slope break points. 
