@@ -43,11 +43,11 @@ ridge.rx0 = 10e3;    % Ridge is introduced 10e3 m upstream
 [stp10] = ssa_wshelf_ridge_fxn(L, frxn_ramp, bmbi, shelf_only, ridge); % Obtain stp10 output
 
 %% Optional save output
-save(['ctl.mat'], 'ctl', '-mat');
-save(['shlw1.mat'], 'shlw1', '-mat');
-save(['shlw5.mat'], 'shlw5', '-mat');
-save(['shlw1.mat'], 'shlw1', '-mat');
-save(['stp1.mat'], 'stp1', '-mat');
-save(['stp5.mat'], 'stp5', '-mat');
-save(['stp10.mat'], 'stp10', '-mat');
+% save(['ctl.mat'], 'ctl', '-mat');
+% save(['shlw1.mat'], 'shlw1', '-mat');
+% save(['shlw5.mat'], 'shlw5', '-mat');
+% save(['shlw1.mat'], 'shlw1', '-mat');
+% save(['stp1.mat'], 'stp1', '-mat');
+% save(['stp5.mat'], 'stp5', '-mat');
+% save(['stp10.mat'], 'stp10', '-mat');
 
