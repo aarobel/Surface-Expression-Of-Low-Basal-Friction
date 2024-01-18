@@ -7,7 +7,7 @@ This repository shares the code associated with the drafted publication titled "
 ## Model Code
 ### Friction Ramp Modeling
 The model_code/friction_ramp subfolder holds files pertinent to the baseline friction ramp modeling discussed in the "Hypothesis from Modeling" section of the paper.
-#### Scripts
+#### Scripts, Inputs, and Outputs
 - **ssa_wshelf_fine_fxn.m**: Runs the flowline model described in the paper with a fine resolution grid upstream of the grounding line. Allows for the implementation of both a basal friction ramp and basal melt ramp at the same "intrusion distance" L.
   	- Inputs:
   
@@ -74,19 +74,41 @@ The model_code/friction_ramp subfolder holds files pertinent to the baseline fri
 	b	|  a	| a
 	x_real	|  a	| a
 
-- **friction_ramp_simulation.m**: Uses **ssa_wshelf_fine_fxn.m** to run the friction ramp simulations shared in the paper,
-- **friction_ramp_figure.m**:	
-
-
-#### Data Structures
-The following structures are the outputs obtained by running the friction_ramp_simulation.m script as written.
-
+- **friction_ramp_simulation.m**: Uses **ssa_wshelf_fine_fxn.m** to run the friction ramp simulations shared in the paper with the following outputs following the structure of **params**:
+  	- Outputs:
+  
+  	Output File Name  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+  	ctl.mat	|  Data structure (See **params**)| Standard simulation with no friction ramp, meaning a constant friction coefficient under the entire grounded portion.
+ 	frxn1.mat	|  Data structure (See **params**)	| Simulation with a friction ramp 1 km in length.
+	frxn5.mat	|  Data structure (See **params**)	| Simulation with a friction ramp 5 km in length.
+	frxn10.mat	|  Data structure (See **params**)	| Simulation with a friction ramp 10 km in length.
+	
+- **friction_ramp_figure.m**:	Uses the output files produced by **friction_ramp_simulation.m** to reproduce Figure 1b in the paper. Plots the surface slope over the distance upstream of the grounding line for the ctl, frxn1, frxn5, and frxn10 scenarios.
 
 ### Basal Melt Modeling
 The model_code/friction_ramp subfolder holds files pertinent to the basal melt ramp modeling discussed in the "Hypothesis from Modeling" section of the paper.
+#### Scripts, Inputs, and Outputs
+- **ssa_wshelf_fine_fxn.m**: Same as the **ssa_wshelf_fine_fxn.m** described in the Friction Ramp Modeling section.
+- **basal_melt_simulation.m**: Uses **ssa_wshelf_fine_fxn.m** to run the basal melt simulations shared in the paper with the following outputs following the structure of **params**:
+  	- Outputs:
+  
+  	Output File Name  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+  	ctl_1.mat	|  Data structure (See **params**)| Simulation with 1 m/yr of basal melt on the ice shelf only.
+ 	bmb1_1.mat	|  Data structure (See **params**)	| Simulation with 1 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 1 km upstream of the grounding line.
+	bmb1_5.mat	|  Data structure (See **params**)	| Simulation with 1 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 5 km upstream of the grounding line.
+	bmb1_10.mat	|  Data structure (See **params**)	| Simulation with 1 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 10 km upstream of the grounding line.
+  	ctl_10.mat	|  Data structure (See **params**)| Simulation with 10 m/yr of basal melt on the ice shelf only.
+ 	bmb10_1.mat	|  Data structure (See **params**)	| Simulation with 10 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 1 km upstream of the grounding line.
+	bmb10_5.mat	|  Data structure (See **params**)	| Simulation with 10 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 5 km upstream of the grounding line.
+	bmb10_10.mat	|  Data structure (See **params**)	| Simulation with 10 m/yr of basal melt on the ice shelf and on a linearly decreasing "ramp" that reaches 0 m/yr at 10 km upstream of the grounding line.
+
+- **basal_melt_figure.m**: Uses the output files produced by **basal_melt_simulation.m** to reproduce Figure 2 in the paper. Plots the surface slope over the distance upstream of the grounding line for the ctl_1, bmb1_1, bmb1_5, bmb1_10, ctl_10, bmb1_10, bmb5_10, and bmb10_10 scenarios.
 
 ### Topography Ridge Modeling
 The model_code/friction_ramp subfolder holds files pertinent to the bed topography ridges modeling discussed in the "Hypothesis from Modeling" section of the paper.
+#### Scripts, Inputs, and Outputs
 
 ## Algorithm Code
 The along-flow distance algorithm aims to find a nearest neighbor slope break point and nearest along-flow slope break point from a linear interpolation between the nearby slope break points. 
