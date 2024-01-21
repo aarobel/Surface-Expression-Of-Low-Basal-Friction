@@ -1,8 +1,7 @@
 # Surface-Expression-Of-Low-Basal-Friction
-This repository shares the code associated with the drafted publication titled "Surface Expression of Low Basal Friction Under Antarctic Grounding Lines" which will be submitted for review to the Journal of Glaciology. Here we share code and data used for the modeling and the along-flow distance algorithm discussed in the paper.
+This repository shares the code and data associated with the drafted publication titled "Surface Expression of Low Basal Friction Under Antarctic Grounding Lines" which will be submitted for review to the Journal of Glaciology.
 
 *work in progress*
-
 
 ## Model Code
 ### Friction Ramp Modeling
@@ -11,12 +10,12 @@ The model_code/friction_ramp subfolder holds files pertinent to the baseline fri
 - **ssa_wshelf_fine_fxn.m**: Runs the flowline model described in the paper with a fine resolution grid upstream of the grounding line. Allows for the implementation of both a basal friction ramp and basal melt ramp at the same "intrusion distance" L.
   	- Inputs:
   
-	Inputs  |  Data Type  |  Description
+	Input  |  Data Type  |  Description
 	------------- | -------------  |  -------------
 	L  |  Double  | The length (m) of the friction ramp and/or basal melt ramp.
-	frxn_ramp  |  Boolean |  Whether a friction ramp is simulated.
+	frxn_ramp  |  Boolean |  Describes whether a friction ramp is simulated (true = 1, false = 0).
 	bmbi  |  Double  | The highest ("initial") rate of basal melt (km/yr) prescribed on the basal melt ramp. When set to 0, no basal melt ramp is applied.
-	shelf_only  |  Boolean  | Whether basal melt is applied to the ice shelf only or upstream of the grounding line.
+	shelf_only  |  Boolean  | Describes whether basal melt is applied to the ice shelf only (1) or upstream of the grounding line (0).
 
 	- Outputs:
    
@@ -112,16 +111,16 @@ The model_code/friction_ramp subfolder holds files pertinent to the bed topograp
 - **ssa_wshelf_ridge_fxn.m**: Runs the flowline model described in the paper with a fine resolution grid upstream of the grounding line. Allows for the implementation of both a basal friction ramp and basal melt ramp at the same "intrusion distance" L. Allows for the implementation of "ridges" in the bed topography, namely a sudden onset of a different slope, at a defined distance upstream of the grounding line.
   	- Inputs:
  
-  	Inputs  |  Data Type  |  Description
+  	Input  |  Data Type  |  Description
 	------------- | -------------  |  -------------
 	L  |  Double  | The length (m) of the friction ramp and/or basal melt ramp.
-	frxn_ramp  |  Boolean |  Whether a friction ramp is simulated.
+	frxn_ramp  |  Boolean |  Describes whether a friction ramp is simulated (true = 1, false = 0).
 	bmbi  |  Double  | The highest ("initial") rate of basal melt (km/yr) prescribed on the basal melt ramp. When set to 0, no basal melt ramp is applied.
-	shelf_only  |  Boolean  | Whether basal melt is applied to the ice shelf only or upstream of the grounding line.
+	shelf_only  |  Boolean  | Describes whether basal melt is applied to the ice shelf only (1) or upstream of the grounding line (0).
 	ridge	|  Data structure with fields "rx" and "rx0"  | Defines the slope of the ridge (field "rx") and the distance upstream of the grounding line where the ridge is implemented (field "rx0"). The baseline slope "rx" is 1e-3.
 
   	- Outputs:
-- **topography_ridge_simulation.m**: Uses **ssa_wshelf_ridge_fxn.m** to run the topography ridge simulations shared in the paper, where no friction ramp or basal melt is applies, with the following outputs following the structure of **params**:
+- **topography_ridge_simulation.m**: Uses **ssa_wshelf_ridge_fxn.m** to run the topography ridge simulations shared in the paper, where no friction ramp or basal melt is applies, with the following outputs following the structure of **params**, with the addition of the 'ridge' field described above:
   	- Outputs:
   	  
 	Output File Name  |  Data Type  |  Description
@@ -134,27 +133,36 @@ The model_code/friction_ramp subfolder holds files pertinent to the bed topograp
  	stp5.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 5 km upstream of the grounding line.
 	stp10.mat	|  Data structure (See **params**)	| Simulation with a topography ridge that is 2x of the control slope implemented 10 km upstream of the grounding line.
 
-- **topography_ridge_figure.m**:
-
+- **topography_ridge_figure.m**: Uses the output files produced by **topography_ridge_simulation.m** to reproduce Figure 3 in the paper. Plots the surface slope over the distance upstream of the grounding line for the ctl, shlw1, shlw5, shlw10, stp1, stp5, and stp10 scenarios.
 
 ## Algorithm Code
-The along-flow distance algorithm aims to find a nearest neighbor slope break point and nearest along-flow slope break point from a linear interpolation between the nearby slope break points. 
+The along-flow distance algorithm aims to find a nearest neighbor slope break point and nearest along-flow slope break point from a linear interpolation between the nearby slope break points.
 
-- Inputs:
+- Inputs: The inputs for this algorithm include the flexure point and slope break point datasets from Li and others (2022) along with data from BedMachine. Due to size constraints, we are unable to share the BedMachine dataset, so the script allows for users to process their own BedMachine data. This will result in the sfc_dx, sfc_dy, bed_x, and bed_y inputs described below. To download the BedMachine data, visit nsidc.org/data and search for MEaSUREs BedMachine Antarctica. Download the netcdf filetype for the entire catchment. Our study used BedMachine Version 3.
 
-- Outputs:
+	Input  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+	f.mat  |  Data structure  | Flexure point locations from Li and others (2022). We have added Polar Sterographic coordinates ('px' and 'py) and a boolean field, 'icerise', which describes whether we have identified the flexure point and slope break points lie on an ice rise (1) or on the ice sheet (0).
+	ib_rise.mat  |  Data structure |  Select slope break point locations from Li and others (2022) which we have identified as residing within an ice rise. 
+	ib_sheet.mat  |  Data structure  | Select slope break point locations from Li and others (2022) which we have identified as residing within the ice sheet.
+	sfc_dx  |  Double (matrix) | The partial derivative of the surface elevations in the x direction provided by BedMachine.
+	sfc_dy  |  Double (matrix) | The partial derivative of the surface elevations in the y direction provided by BedMachine.
+  	bed_x  |  Double (matrix) | The Polar Stereographic x-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
+  	bed_y  |  Double (matrix) | The Polar Stereographic y-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
 
-Field  |  Data Type  |  Description
-------------- | -------------  |  -------------
-fx	|  Double	|	The Polar Stereographic x-coordinate of the flexure point.
-fy	|  Double	|	The Polar Stereographic y-coordinate of the flexure point.
-near_ibx	|  Double	|	The Polar Stereographic x-coordinate of the nearest neighbor slope break point to the flexure point.
-near_iby	|  Double	|	The Polar Stereographic y-coordinate of the nearest neighbor slope break point to the flexure point.
-near_ib_dist	|  Double	|	The Eucledian distance between the nearest neighbor slope break point and the flexure point in meters.
-ibx	|  Double	|	The Polar Stereographic x-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
-iby	|  Double	|	The Polar Stereographic y-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
-ib_dist	|  Double	|	The Eucledian distance between the along-flow slope break point and the flexure point in meters. If no along-flow slope break is found, this field is NAN.
-gradients_flag	|  String	|	Quality-check which describes the difference 
-dir_flag	|  String	|	Describes whether the along-flow slope break point is 'upstream' or 'downstream' of the flexure point. If an along-flow slope break is found, this field is 'no ib found'.
-dir_vec		|  Double (vector)	|	...
-icerise	|  Boolean	|	Describes whether the flexure point and slope break points lie on an icerise (1) or on the ice sheet (0).
+- Outputs: The algorithm returns a data structure 'out' that shares findings for each flexure point in the dataset.
+
+	Field  |  Data Type  |  Description
+	------------- | -------------  |  -------------
+	fx	|  Double	|	The Polar Stereographic x-coordinate of the flexure point.
+	fy	|  Double	|	The Polar Stereographic y-coordinate of the flexure point.
+	near_ibx	|  Double	|	The Polar Stereographic x-coordinate of the nearest neighbor slope break point to the flexure point.
+	near_iby	|  Double	|	The Polar Stereographic y-coordinate of the nearest neighbor slope break point to the flexure point.
+	near_ib_dist	|  Double	|	The Eucledian distance between the nearest neighbor slope break point and the flexure point in meters.
+	ibx	|  Double	|	The Polar Stereographic x-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
+	iby	|  Double	|	The Polar Stereographic y-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
+	ib_dist	|  Double	|	The Eucledian distance between the along-flow slope break point and the flexure point in meters. If no along-flow slope break is found, this field is NAN.
+	gradients_flag	|  String	|	Quality-check which describes the difference 
+	dir_flag	|  String	|	Describes whether the along-flow slope break point is 'upstream' or 'downstream' of the flexure point. If no along-flow direction can be found with the BedMachine data, this field is 'no sfc gradient at f'. If an along-flow direction is found without an along-flow slope break, this field is 'no ib found'. 
+	dir_vec		|  Double (vector)	|	If an along-flow slope break point is found, this field holds the unit vector describing the along-flow direction from the flexure point. If no along-flow slope break is found, this field is NAN.
+	icerise	|  Boolean	|	Describes whether the flexure point and slope break points lie on an ice rise (1) or on the ice sheet (0).
