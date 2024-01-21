@@ -66,8 +66,8 @@ The model_code/friction_ramp subfolder holds files pertinent to the baseline fri
 	sfc_elev	|  Double (vector)	| Surface elevation
 	sfc_d1	|  Double (vector)	| First derivative of surface elevation
 	sfc_d2	|  Double (vector)	| Second derivative of surface elevation
-	h	|  Double (vector)	| Thickness
-	u	|  Double (vector)	| Velocity
+	h	|  Double (vector)	| Ice thickness
+	u	|  Double (vector)	| Ice velocity
 	xg	|  Double	| Steady-state grounding line position
 	hf	|  Double	| Floatation thickness
 	b	|  Double (vector)	| Bed elevation
