@@ -22,56 +22,56 @@ The model_code/friction_ramp subfolder holds files pertinent to the baseline fri
 	The function returns a data structure called **params** described below:
 	Field  |  Data Type  |  Description
 	------------- | -------------  |  -------------
-	b0	|  a	| a
-	bx	|  a	| a
-	sill_min	|  a	| a
-	sill_max	|  a	| a
-	sill_slope	|  a	| a
-	year	|  a	| a
-	Aglen	|  a	| a
-	nglen	|  a	| a
-	Bglen	|  a	| a
-	m	|  a	| a
-	accum	|  a	| a
-	bmbi	|  a	| a
-	shelf_only	|  a	| a
-	L	|  a	| a
-	C	|  a	| a
-	frxn_ramp	|  a	| a
-	rhoi	|  a	| a
-	rhow	|  a	| a
-	g	|  a	| a
-	hscale	|  a	| a
-	ascale	|  a	| a
-	bmbscale|  a	| a
-	uscale	|  a	| a
-	xscale	|  a	| a
-	tscale	|  a	| a
-	eps	|  a	| a
-	lambda	|  a	| a
-	transient	|  a	| a
-	tfinal	|  a	| a
-	Nt	|  a	| a
-	dt	|  a	| a
-	Nx	|  a	| a
-	N1	|  a	| a
-	N2	|  a	| a
-	Ntot|  a	| a
-	sigGZ	|  a	| a
-	sigma	|  a	| a
-	sigma_elem |  a	| a
-	dsigma	|  a	| a
-	h_old	|  a	| a
-	xg_old	|  a	| a
-	sfc_elev	|  a	| a
-	sfc_d1	|  a	| a
-	sfc_d2	|  a	| a
-	h	|  a	| a
-	u	|  a	| a
-	xg	|  a	| a
-	hf	|  a	| a
-	b	|  a	| a
-	x_real	|  a	| a
+	b0	|  Double	| Bed elevation at x = 0
+	bx	|  Double	| Linear bed slope
+	sill_min	|  Double	| Minimum sill x position
+	sill_max	|  Double	| Maximum sill x position
+	sill_slope	|  Double	| Sill slope
+	year	|  Double	| Number of seconds in a year
+	Aglen	|  Double	| Ice softness parameter
+	nglen	|  Double	| Glen's exponent
+	Bglen	|  Double	| a
+	m	|  Double	| Sliding exponent (power law)
+	accum	|  Double	| Accumulation rate
+	bmbi	|  Double	| The highest ("initial") rate of basal melt (km/yr) prescribed on the basal melt ramp. 
+	shelf_only	|  Boolean	| Describes whether basal melt is applied to the ice shelf only (1) or upstream of the grounding line (0).
+	L	|  Double	| The length (m) of the friction ramp and/or basal melt ramp.
+	C	|  Double	| Sliding coefficient (power law)
+	frxn_ramp	|  Boolean	| Describes whether a friction ramp is simulated (true = 1, false = 0).
+	rhoi	|  Double	| Ice density
+	rhow	|  Double	| Water density
+	g	|  Double	| Acceleration of gravity
+	hscale	|  Double	| Thickness scaling
+	ascale	|  Double	| Surface mass balance scaling
+	bmbscale|  Double	| Basal melt scaling
+	uscale	|  Double	| Velocity scaling
+	xscale	|  Double	| Horizontal distance scaling
+	tscale	|  Double	| Time scaling
+	eps	|  Double	| Epsilon parameter from Schoof (2007)
+	lambda	|  Double	| Difference in density between ice and water from Schoof (2007)
+	transient	|  Boolean	| Describes whether solving for steady-state (0) or transient evolution (1)
+	tfinal	|  Double	| Length of tranisent simulation
+	Nt	|  Double	| Number of time steps
+	dt	|  Double	| Time step length
+	Nx	|  Double	| Number of grid points in grounded domain
+	N1	|  Double	| Number of grid points in coarse domain
+	N2	|  Double	| Number of grid points in ice shelf
+	Ntot	|  Double	| Total number of grid points
+	sigGZ	|  Double	| Extent of coarse grid
+	sigma	|  Double (vector)	| Velocity grid points
+	sigma_elem |  Double (vector)	| Thickness grid points
+	dsigma	|  Double (vector)	| Grid spacing
+	h_old	|  Double (vector)	| ??
+	xg_old	|  Double	| ??
+	sfc_elev	|  Double (vector)	| Surface elevation
+	sfc_d1	|  Double (vector)	| First derivative of surface elevation
+	sfc_d2	|  Double (vector)	| Second derivative of surface elevation
+	h	|  Double (vector)	| Thickness
+	u	|  Double (vector)	| Velocity
+	xg	|  Double	| Steady-state grounding line position
+	hf	|  Double	| Floatation thickness
+	b	|  Double (vector)	| Bed elevation
+	x_real	|  Double (vector)	| Horizontal grid in terms of distance (m) from the grounding line position
 
 - **friction_ramp_simulation.m**: Uses **ssa_wshelf_fine_fxn.m** to run the friction ramp simulations shared in the paper with the following outputs following the structure of **params**:
   	- Outputs:
@@ -136,7 +136,7 @@ The model_code/friction_ramp subfolder holds files pertinent to the bed topograp
 - **topography_ridge_figure.m**: Uses the output files produced by **topography_ridge_simulation.m** to reproduce Figure 3 in the paper. Plots the surface slope over the distance upstream of the grounding line for the ctl, shlw1, shlw5, shlw10, stp1, stp5, and stp10 scenarios.
 
 ## Algorithm Code
-The along-flow distance algorithm aims to find a nearest neighbor slope break point and nearest along-flow slope break point from a linear interpolation between the nearby slope break points.
+**along_flow_distance_algorithm.m** works to find a nearest neighbor slope break point and nearest along-flow slope break point for all of the flexure points in the data set.
 
 - Inputs: The inputs for this algorithm include the flexure point and slope break point datasets from Li and others (2022) along with data from BedMachine. Due to size constraints, we are unable to share the BedMachine dataset, so the script allows for users to process their own BedMachine data. This will result in the sfc_dx, sfc_dy, bed_x, and bed_y inputs described below. To download the BedMachine data, visit nsidc.org/data and search for MEaSUREs BedMachine Antarctica. Download the netcdf filetype for the entire catchment. Our study used BedMachine Version 3.
 
