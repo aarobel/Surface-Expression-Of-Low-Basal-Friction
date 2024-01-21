@@ -145,12 +145,12 @@ The along-flow distance algorithm aims to find a nearest neighbor slope break po
 	f.mat  |  Data structure  | Flexure point locations from Li and others (2022). We have added Polar Sterographic coordinates ('px' and 'py) and a boolean field, 'icerise', which describes whether we have identified the flexure point and slope break points lie on an ice rise (1) or on the ice sheet (0).
 	ib_rise.mat  |  Data structure |  Select slope break point locations from Li and others (2022) which we have identified as residing within an ice rise. 
 	ib_sheet.mat  |  Data structure  | Select slope break point locations from Li and others (2022) which we have identified as residing within the ice sheet.
-	sfc_dx  |  Double (matrix) | The partial derivative of the surface elevations in the x direction provided by BedMachine.
-	sfc_dy  |  Double (matrix) | The partial derivative of the surface elevations in the y direction provided by BedMachine.
-  	bed_x  |  Double (matrix) | The Polar Stereographic x-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
-  	bed_y  |  Double (matrix) | The Polar Stereographic y-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
+	sfc_dx.mat  |  Double (matrix) | The partial derivative of the surface elevations in the x direction provided by BedMachine.
+	sfc_dy.mat  |  Double (matrix) | The partial derivative of the surface elevations in the y direction provided by BedMachine.
+  	bed_x.mat  |  Double (matrix) | The Polar Stereographic x-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
+  	bed_y.mat  |  Double (matrix) | The Polar Stereographic y-coordinates aligning with the data in the sfc_dx and sfc_dy matrices.
 
-- Outputs: The algorithm returns a data structure 'out' that shares findings for each flexure point in the dataset.
+- Outputs: The algorithm returns a data structure **out** that shares findings for each flexure point in the dataset.
 
 	Field  |  Data Type  |  Description
 	------------- | -------------  |  -------------
@@ -162,7 +162,7 @@ The along-flow distance algorithm aims to find a nearest neighbor slope break po
 	ibx	|  Double	|	The Polar Stereographic x-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
 	iby	|  Double	|	The Polar Stereographic y-coordinate of the along-flow interpolated slope break. If no point is found, this field will be NAN.
 	ib_dist	|  Double	|	The Eucledian distance between the along-flow slope break point and the flexure point in meters. If no along-flow slope break is found, this field is NAN.
-	gradients_flag	|  String	|	Quality-check which describes the difference 
+	gradients_flag	|  String	|	Quality-check which describes the difference between the surface gradient at the flexure point and the slope break point. If the difference between the two unit vectors is less than 90 degrees, this field is 'ok'. If the difference is greater than 90 degrees, this field is 'abnormal'. If no along-flow slope break is found or the algorithm is unable to resolve either surface gradient, this field is NAN.
 	dir_flag	|  String	|	Describes whether the along-flow slope break point is 'upstream' or 'downstream' of the flexure point. If no along-flow direction can be found with the BedMachine data, this field is 'no sfc gradient at f'. If an along-flow direction is found without an along-flow slope break, this field is 'no ib found'. 
-	dir_vec		|  Double (vector)	|	If an along-flow slope break point is found, this field holds the unit vector describing the along-flow direction from the flexure point. If no along-flow slope break is found, this field is NAN.
+	dir_vec		|  Double (2x1 vector)	|	If an along-flow slope break point is found, this field holds the unit vector describing the along-flow direction from the flexure point. If no along-flow slope break is found, this field is NAN.
 	icerise	|  Boolean	|	Describes whether the flexure point and slope break points lie on an ice rise (1) or on the ice sheet (0).
