@@ -1,5 +1,5 @@
 # Surface-Expression-Of-Low-Basal-Friction
-This repository shares the MATLAB code and data associated with the drafted publication titled "Surface Expression of Low Basal Friction Upstream of Antarctic Grounding Lines" which is currently in submission. This is a fork of a [repository and code originally developed by Ella Stewart][https://github.com/ella-wynn/Surface-Expression-Of-Low-Basal-Friction] which was modified and is now maintained by Alex Robel.
+This repository shares the MATLAB code and data associated with the drafted publication titled "Surface Expression of Low Basal Friction Upstream of Antarctic Grounding Lines" which is currently in submission. This is a fork of a [repository and code originally developed by Ella Stewart](https://github.com/ella-wynn/Surface-Expression-Of-Low-Basal-Friction) which was modified and is now maintained by Alex Robel.
 
 *work in progress*
 
