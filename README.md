@@ -1,5 +1,5 @@
 # Surface-Expression-Of-Low-Basal-Friction
-This repository shares the MATLAB code and data associated with the drafted publication titled "Surface Expression of Low Basal Friction Under Antarctic Grounding Lines" which will be submitted for review to the Journal of Glaciology.
+This repository shares the MATLAB code and data associated with the drafted publication titled "Surface Expression of Low Basal Friction Upstream of Antarctic Grounding Lines" which is currently in submission.
 
 *work in progress*
 
