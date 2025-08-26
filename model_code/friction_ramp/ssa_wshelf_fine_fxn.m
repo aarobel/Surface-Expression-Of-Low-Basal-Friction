@@ -38,9 +38,9 @@ params.transient = 0;               % 0 if solving for steady-state, 1 if solvin
 params.tfinal = 10e3.*params.year;  % length of transient simulation
 params.Nt = 1e2;                    % number of time steps
 params.dt = params.tfinal/params.Nt;% time step length
-params.Nx = 300;                    % number of grid points in grounded domain (300 = high resolution)
+params.Nx = 600;                    % number of grid points in grounded domain (300 = high resolution)
 params.N1 = 100;                    % number of grid points in coarse domain
-params.N2 = 100*2;                  % number of grid points in shelf, grid pts in refined region
+params.N2 = params.Nx-params.N1;    % number of grid points in shelf, same as # grid pts in refined region
 params.Ntot = params.Nx+params.N2;  % total number of grid points
 params.sigGZ = 0.9;                 % extent of coarse grid (where GL is at sigma=1) (0.9 covers intrustion extent past L = 10 km) 
 % params.sigma = linspace(0,1-(1/(2*params.Nx)),params.Nx)';
