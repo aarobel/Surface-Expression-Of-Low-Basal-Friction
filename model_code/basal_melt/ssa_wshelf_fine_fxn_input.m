@@ -1,4 +1,4 @@
-function [params] = ssa_wshelf_fine_fxn(L, frxn_ramp, bmbi, shelf_only)
+function [params] = ssa_wshelf_fine_fxn(L, frxn_ramp, bmbi, shelf_only, huxg0)
 %% Bed parameters
 params.b0 = -100;           % bed topo at x=0
 params.bx = -1e-3;          % linear bed slope
@@ -67,15 +67,28 @@ params.dsigma = diff(params.sigma); % grid spacing
 % sige_old = params.sigma_elem;
 % huxg0 = [h;u;xg]; % initial h, u, and xg are fed into flowline equations
 % turn Display to 'on' if you'd like
-load BMB_init1.mat
+% load BMB_init1.mat
 params.h_old = huxg0(1:params.Ntot);
 params.xg_old = huxg0(end);
 b = -bed(params.xg_old.*params.sigma.*params.xscale,params)/params.hscale; % bed elevation
 
-options = optimoptions(@fsolve,'Display','iter','SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',1e6,'MaxIterations',1e3);
-flf = @(huxg) flowline_eqns(huxg,params);
 
-[huxg_init,F,exitflag,output,JAC] = fsolve(flf,huxg0,options);
+if params.transient == 0
+    options = optimoptions(@fsolve,'Display','iter','SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',1e6,'MaxIterations',1e3);
+    flf = @(huxg) flowline_eqns(huxg,params);
+    [huxg_init,F,exitflag,output,JAC] = fsolve(flf,huxg0,options);
+else
+    options = optimoptions(@fsolve,'Display','final','SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',1e6,'MaxIterations',1e3);
+    huxg_init = huxg0;
+    for t=1:params.Nt
+        flf = @(huxg) flowline_eqns(huxg,params);
+        [huxg_init,F,exitflag,output,JAC] = fsolve(flf,huxg_init,options);
+        
+        params.h_old = huxg_init(1:params.Ntot);
+        params.xg_old = huxg_init(end);
+        t
+    end
+end
 
 h = huxg_init(1:params.Ntot);   % updated thickness
 u = huxg_init(params.Ntot+1:2*params.Ntot); % updated velocity
@@ -243,7 +256,7 @@ if L ~= 0 && (params.shelf_only == false)
 else
     % create BMB_vec
     bmb_vec = zeros(Ntot, 1);
-    bmb_vec(Nx:Ntot) = bmbi; % constant bmb at ice shelf and grounding zone
+    bmb_vec(Nx+2:Ntot) = bmbi; % constant bmb at ice shelf and grounding zone
 end
 end
 
